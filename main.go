@@ -1,14 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"net"
 
 	"google.golang.org/grpc"
 )
 
 func main() {
-	opts := []grpc.CallOption{}
+	opts := []grpc.ServerOption{}
 	grpcServer := grpc.NewServer(opts...)
 
 	ln, err := net.Listen("tcp", ":3000")
