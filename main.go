@@ -3,10 +3,14 @@ package main
 import (
 	"net"
 
+	"github.com/andersonribeir0/blocker/proto"
+	"github.com/andersonribeir0/blocker/server"
 	"google.golang.org/grpc"
 )
 
 func main() {
+	node := server.Node{}
+
 	opts := []grpc.ServerOption{}
 	grpcServer := grpc.NewServer(opts...)
 
@@ -15,5 +19,6 @@ func main() {
 		panic(err)
 	}
 
+	proto.RegisterNodeServer(grpcServer, node)
 	grpcServer.Serve(ln)
 }
