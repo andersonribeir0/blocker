@@ -1,20 +1,18 @@
 package server
 
-import "net"
+import (
+	"context"
+	"github.com/andersonribeir0/blocker/proto"
+)
 
-type Server struct {
-	listenAddr string
-	ln         net.Listener
+type Node struct {
+	proto.UnimplementedNodeServer
 }
 
-func New(listenAddr string) (*Server, error) {
-	ln, err := net.Listen("tcp", listenAddr)
-	if err != nil {
-		return nil, err
-	}
+func NewNode() *Node {
+	return &Node{}
+}
 
-	return &Server{
-		listenAddr: listenAddr,
-		ln:         ln,
-	}, nil
+func (n *Node) HandleTransaction(ctx context.Context, tx *proto.Transaction) (*proto.None, error) {
+	return nil, nil
 }
