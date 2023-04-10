@@ -5,11 +5,17 @@ import (
 
 	"github.com/andersonribeir0/blocker/proto"
 	"github.com/andersonribeir0/blocker/server"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )
 
 func main() {
-	node := server.Node{}
+	logConfig := zap.NewProductionConfig()
+	logConfig.DisableCaller = true
+	logConfig.Level.SetLevel(zap.DebugLevel)
+	logger, _ := logConfig.Build()
+
+	node := server.NewNode(logger)
 
 	opts := []grpc.ServerOption{}
 	grpcServer := grpc.NewServer(opts...)
