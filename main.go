@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"net"
+	"time"
 
 	"github.com/andersonribeir0/blocker/proto"
 	"github.com/andersonribeir0/blocker/server"
@@ -27,10 +28,19 @@ func main() {
 	}
 
 	proto.RegisterNodeServer(grpcServer, node)
+
+	go func() {
+		for {
+			time.Sleep(2 * time.Second)
+			makeRequest()
+		}
+	}()
+
+	logger.Info("Listening port :3005")
 	grpcServer.Serve(ln)
 }
 
-func makeRequest(server *proto.NodeServer) {
+func makeRequest() {
 	conn, err := grpc.Dial(":3005", grpc.WithInsecure())
 	if err != nil {
 		panic(err)

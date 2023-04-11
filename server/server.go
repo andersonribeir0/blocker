@@ -27,7 +27,7 @@ func NewNode(logger *zap.Logger) *Node {
 func (n *Node) HandleTransaction(ctx context.Context, tx *proto.Transaction) (*proto.Ack, error) {
 	peer, _ := peer.FromContext(ctx)
 
-	n.logger.Info(fmt.Sprintf("Received from: %v\t%v", peer, tx.Version))
+	n.logger.Info(fmt.Sprintf("Received from: %v version: %v", peer, tx.Version))
 
 	return &proto.Ack{Ok: true}, nil
 }
@@ -35,7 +35,7 @@ func (n *Node) HandleTransaction(ctx context.Context, tx *proto.Transaction) (*p
 func (n *Node) Handshake(ctx context.Context, version *proto.Version) (*proto.Version, error) {
 	peer, _ := peer.FromContext(ctx)
 
-	n.logger.Info(fmt.Sprintf("Received from: %v\t%v", peer, version.Version))
+	n.logger.Info(fmt.Sprintf("Received from: %v version %v", peer, version.Version))
 
 	return &proto.Version{Version: "1.1.1"}, nil
 }
