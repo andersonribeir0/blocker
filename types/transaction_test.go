@@ -38,7 +38,7 @@ func TestNewTransaction(t *testing.T) {
 	}
 
 	tx := &proto.Transaction{
-		Version: 1,
+		Version: "1",
 		Inputs:  []*proto.TxInput{input},
 		Outputs: []*proto.TxOutput{output1, output2},
 	}

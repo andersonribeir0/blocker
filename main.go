@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"net"
 
 	"github.com/andersonribeir0/blocker/proto"
@@ -20,11 +21,26 @@ func main() {
 	opts := []grpc.ServerOption{}
 	grpcServer := grpc.NewServer(opts...)
 
-	ln, err := net.Listen("tcp", ":3000")
+	ln, err := net.Listen("tcp", ":3005")
 	if err != nil {
 		panic(err)
 	}
 
 	proto.RegisterNodeServer(grpcServer, node)
 	grpcServer.Serve(ln)
+}
+
+func makeRequest(server *proto.NodeServer) {
+	conn, err := grpc.Dial(":3005", grpc.WithInsecure())
+	if err != nil {
+		panic(err)
+	}
+
+	client := proto.NewNodeClient(conn)
+
+	client.Handshake(context.TODO(), &proto.Version{Version: "blocker-0.0.1", Height: 1})
+
+	client.HandleTransaction(context.TODO(), &proto.Transaction{Version: "blocker-0.1.1"})
+
+	conn.Close()
 }
